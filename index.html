@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rahul's Developer Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        main {
+            padding: 1rem;
+        }
+
+        section {
+            margin-bottom: 2rem;
+        }
+
+        #repo-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .repo {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 0.5rem;
+            padding: 1rem;
+            width: calc(33% - 1rem);
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Rahul's Developer Portfolio</h1>
+    </header>
+    <main>
+        <section id="about">
+            <h2>About Me</h2>
+            <p>Welcome to my portfolio! I am a passionate developer.</p>
+        </section>
+        <section id="projects">
+            <h2>My Projects</h2>
+            <div id="repo-list"></div>
+        </section>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('https://api.github.com/users/rahul188/repos')
+                .then(response => response.json())
+                .then(data => {
+                    const repoList = document.getElementById('repo-list');
+                    data.forEach(repo => {
+                        const repoDiv = document.createElement('div');
+                        repoDiv.className = 'repo';
+                        repoDiv.innerHTML = `
+                            <h3>${repo.name}</h3>
+                            <p>${repo.description || 'No description available'}</p>
+                            <a href="${repo.html_url}" target="_blank">View on GitHub</a>
+                        `;
+                        repoList.appendChild(repoDiv);
+                    });
+                })
+                .catch(error => console.error('Error fetching repos:', error));
+        });
+    </script>
+</body>
+</html>
